@@ -14,10 +14,10 @@ import (
 	"github.com/gophercloud/gophercloud/openstack"
 	"github.com/gophercloud/gophercloud/openstack/compute/v2/servers"
 	"github.com/gophercloud/gophercloud/pagination"
-//	"github.com/gophercloud/gophercloud/openstack/blockstorage/extensions/quotasets"
-//	"github.com/gophercloud/gophercloud/openstack/loadbalancer/v2/quotas"
-//	"github.com/gophercloud/gophercloud/openstack/networking/v2/extensions/quotas"
-        "github.com/gophercloud/gophercloud/openstack/compute/v2/extensions/quotasets"
+	blockquota "github.com/gophercloud/gophercloud/openstack/blockstorage/extensions/quotasets"
+//	lbquota "github.com/gophercloud/gophercloud/openstack/loadbalancer/v2/quotas"
+	netquota "github.com/gophercloud/gophercloud/openstack/networking/v2/extensions/quotas"
+        computequota "github.com/gophercloud/gophercloud/openstack/compute/v2/extensions/quotasets"
 //	"github.com/gophercloud/gophercloud/openstack/clustering/v1/nodes"
 //        "github.com/gophercloud/gophercloud/openstack/clustering/v1/policies"
 
@@ -114,15 +114,15 @@ func run(endpoint, username, password, project string, verbose bool) {
 		return true, nil
 	})
 	// Block storage Quota
-/*	quotaset, err := quotasets.GetUsage(client, os.Getenv("OS_PROJECT_ID")).Extract()
+	quotaset, err := blockquota.GetUsage(client, os.Getenv("OS_PROJECT_ID")).Extract()
 	if err != nil {
 		panic(err)
 	}
 
 	fmt.Printf("%+v\n", quotaset)
-*/
+
 	//quotaset2, err := quotasets.Get(client, "tenant-id").Extract()
-	quotaset2, err := quotasets.Get(client, os.Getenv("OS_PROJECT_ID")).Extract()
+	quotaset2, err := computequota.Get(client, os.Getenv("OS_PROJECT_ID")).Extract()
 
 	if err != nil {
 		panic(err)
@@ -130,14 +130,14 @@ func run(endpoint, username, password, project string, verbose bool) {
 
 	fmt.Printf("%+v\n", quotaset2)
 
-/*
-        quotasInfo, err := quotas.Get(client, os.Getenv("OS_PROJECT_ID")).Extract()
+
+        quotasInfo, err := netquota.Get(client, os.Getenv("OS_PROJECT_ID")).Extract()
         if err != nil {
             log.Fatal(err)
         }
 
         fmt.Printf("quotas: %#v\n", quotasInfo)
-*/
+
 
 
 /*
